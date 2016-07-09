@@ -10,7 +10,7 @@ module.exports = {
 
   output: {
     path: path.join(__dirname, 'public'),
-    filename: 'bundle-js',
+    filename: 'bundle.js',
     publicPath: '/public/',
   },
 
@@ -35,7 +35,7 @@ module.exports = {
       {
         test: /\.js?$/,
         loader: 'babel',
-        exclude: /node_modules/ 
+        exclude: /node_modules/
       },
 
       {
