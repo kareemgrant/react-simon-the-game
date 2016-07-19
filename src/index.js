@@ -1,6 +1,7 @@
-import React from 'react'
-import { render } from 'react-dom'
-import App from './components/app'
-import './styles/app.scss'
+import React from 'react';
+import { render } from 'react-dom';
+import GameContainer from './components/GameContainer';
+import './styles/bootstrap.min.css';
+import './styles/custom.scss';
 
-render(<App />, document.getElementById('main'))
+render(<GameContainer />, document.getElementById('main'));
