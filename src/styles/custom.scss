@@ -12,6 +12,10 @@ html {
   overflow: auto;
 }
 
+.boardContainer h2, .boardContainer h3 {
+  text-align: center;
+}
+
 .pad {
   height: 200px;
   width: 200px;
@@ -69,4 +73,21 @@ html {
 
 .green.highlight {
   background-color: #4caf50;
+}
+
+.btn-container {
+  margin-top: 20px;
+  float: left;
+  width: 100%;
+}
+.btn-center {
+  text-align: center;
+}
+
+.prompt {
+  text-align: center;
+  color: #333;
+  float: left;
+  width: 100%;
+  margin-top: 10px;
 }
