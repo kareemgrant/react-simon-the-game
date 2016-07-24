@@ -8,6 +8,7 @@ const propTypes = {
 
 class Pad extends Component {
   componentWillReceiveProps(newProps) {
+    console.log('receiving props');
     if (this.props.color === this.props.activeColor) {
       this.play();
     }
@@ -39,10 +40,11 @@ class Pad extends Component {
     const temp = this.pad.className;
     this.pad.className = `${this.pad.className} highlight`;
 
-    setTimeout(() => self.pad.className = temp, 500);
+    setTimeout(() => self.pad.className = temp, 300);
   }
 
   render() {
+    console.log('rendering');
     const { color } = this.props;
     const padClass = this.fetchBaseClass(color);
 

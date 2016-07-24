@@ -1,9 +1,12 @@
 const InitialState = {
   gameData: {
-    patternCount: 5,
-    sequence: ['yellow', 'red', 'red', 'green', 'blue'],
+    gameInProgress: false,
+    gameOver: false,
+    patternCount: 7,
+    sequence: [],
     currentIndex: 0,
     activeColor: null,
+    currentRound: 1,
   },
 };
 

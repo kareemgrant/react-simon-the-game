@@ -8,11 +8,14 @@ const propTypes = {
 class Game extends Component {
   render() {
     console.log('rendering game', this.props);
-    const { gameData: { activeColor } } = this.props;
+    const { gameData: { activeColor, patternCount } } = this.props;
 
     return (
       <div className="container">
-        <Board activeColor={activeColor} />
+        <Board 
+          activeColor={activeColor}
+          patternCount={patternCount}
+        />
       </div>
     );
   }

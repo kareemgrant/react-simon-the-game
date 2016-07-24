@@ -1,6 +1,19 @@
 import _ from 'lodash';
+import { COLORS } from '../store/constants/GameConstants';
+
 const ActionTypes = require('./ActionTypes');
 
+function generateSequence(itemCount) {
+  const newSequence = [];
+  for (let i = 0; i < itemCount; i++) {
+    newSequence.push(_.sample(COLORS));
+  }
+
+  return {
+    type: ActionTypes.UPDATE_GAME_SEQUENCE,
+    sequence: newSequence,
+  };
+}
 
 function displaySequence(interval) {
   return (dispatch, getState) => {
@@ -29,5 +42,6 @@ function updateGameData(data) {
 
 module.exports = {
   displaySequence,
+  generateSequence,
   updateGameData,
 };

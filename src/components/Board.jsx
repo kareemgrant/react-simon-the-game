@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
 import Pad from './Pad';
 import { dispatch } from '../store/Store';
-import { displaySequence } from '../actions/ActionCreators';
+import { displaySequence, generateSequence } from '../actions/ActionCreators';
 
 const propTypes = {
   activeColor: React.PropTypes.string,
+  patternCount: React.PropTypes.number,
 };
 
 class Board extends Component {
+  startRound(interval) {
+    const { patternCount } = this.props;
+
+    dispatch(generateSequence(patternCount));
+    dispatch(displaySequence(interval));
+  }
+
   render() {
     const { activeColor } = this.props;
     return (
@@ -36,7 +44,7 @@ class Board extends Component {
           audio={"http://www.richardbrice.net/bell_1.mp3"}
         />
 
-        <button onClick={() => dispatch(displaySequence(800))}>Start</button>
+        <button className="btn btn-default" onClick={() => this.startRound(500)}>Start</button>
       </div>
     );
   }
