@@ -1,57 +1,33 @@
+import _ from 'lodash';
 const ActionTypes = require('./ActionTypes');
 
-function startGame() {
-  return {
-    type: ActionTypes.START_GAME,
-  };
-}
 
 function displaySequence(interval) {
   return (dispatch, getState) => {
-    const { gameData: { sequence, currentIndex } } = getState();
-
+    const { gameData: { sequence } } = getState();
+    const items = _.clone(sequence);
+    let index = 0;
     let intervalId = null;
-    console.log('currentIndex is', currentIndex);
-    if (currentIndex < sequence.length) {
-      intervalId = setInterval(() => {
-        dispatch(clearActiveColor());
-        dispatch(incrementIndex(intervalId));
-      }, interval);
-    }
+
+    intervalId = setInterval(() => {
+      if (!items.length) clearInterval(intervalId);
+      items.shift();
+      dispatch(updateGameData({
+        activeColor: sequence[index],
+        currentIndex: index++,
+      }));
+    }, interval);
   };
 }
 
-function incrementIndex(intervalId) {
-  return (dispatch, getState) => {
-    const { gameData: { currentIndex, patternCount, sequence } } = getState();
-    console.log(currentIndex);
-    if (currentIndex < patternCount) {
-      dispatch(updateActiveColor(sequence[currentIndex]));
-      dispatch({ type: ActionTypes.INCREMENT_INDEX });
-    } else {
-      clearInterval(intervalId);
-      console.log('stop');
-    }
-  };
-}
-
-function updateActiveColor(color) {
+function updateGameData(data) {
   return {
-    type: ActionTypes.UPDATE_ACTIVE_COLOR,
-    color,
-  };
-}
-
-function clearActiveColor() {
-  return {
-    type: ActionTypes.UPDATE_ACTIVE_COLOR,
+    type: ActionTypes.UPDATE_GAME_DATA,
+    data,
   };
 }
 
 module.exports = {
-  startGame,
-  incrementIndex,
   displaySequence,
-  updateActiveColor,
-  clearActiveColor,
+  updateGameData,
 };

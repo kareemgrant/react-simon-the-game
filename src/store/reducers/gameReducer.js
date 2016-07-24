@@ -2,7 +2,7 @@ const ActionTypes = require('../../actions/ActionTypes');
 
 const gameReducer = (gameData = {}, action) => {
   switch (action.type) {
-    case ActionTypes.START_GAME:
+    case ActionTypes.UPDATE_GAME_DATA:
       return Object.assign({}, gameData, action.data);
     case ActionTypes.INCREMENT_INDEX:
       return Object.assign({}, gameData, { currentIndex: gameData.currentIndex + 1 });

@@ -7,22 +7,50 @@ const propTypes = {
 };
 
 class Pad extends Component {
-  render() {
-    const { color, activeColor } = this.props;
-    console.log('color', color);
-    console.log('activeColor', activeColor);
+  componentWillReceiveProps(newProps) {
+    if (this.props.color === this.props.activeColor) {
+      this.play();
+    }
+  }
 
-    const padClass = classNames({
-      red: color === 'red',
-      yellow: color === 'yellow',
-      green: color === 'green',
-      blue: color === 'blue',
-      pad: true,
-      highlight: color === activeColor,
-    });
+  fetchBaseClass(color) {
+    return (
+      classNames({
+        red: color === 'red',
+        yellow: color === 'yellow',
+        green: color === 'green',
+        blue: color === 'blue',
+        pad: true,
+        highlight: false,
+      })
+    );
+  }
+
+  playSound() {
+    const { audio } = this.props;
+
+    const sound = new Audio(audio);
+    sound.play();
+  }
+
+  play() {
+    this.playSound();
+    const self = this;
+    const temp = this.pad.className;
+    this.pad.className = `${this.pad.className} highlight`;
+
+    setTimeout(() => self.pad.className = temp, 500);
+  }
+
+  render() {
+    const { color } = this.props;
+    const padClass = this.fetchBaseClass(color);
 
     return (
-      <div className={padClass}></div>
+      <div
+        className={padClass}
+        ref={node => this.pad = node}
+      ></div>
     );
   }
 }

@@ -12,11 +12,31 @@ class Board extends Component {
     const { activeColor } = this.props;
     return (
       <div className="boardContainer clearfix">
-        <Pad activeColor={activeColor} color="red" />
-        <Pad activeColor={activeColor} color="blue" />
-        <Pad activeColor={activeColor} color="yellow" />
-        <Pad activeColor={activeColor} color="green" />
-        <button onClick={() => dispatch(displaySequence(2000))}>Start</button>
+        <Pad
+          activeColor={activeColor}
+          color="red"
+          audio={"http://www.sounds.beachware.com/2illionzayp3may/tlahs/BING.mp3"}
+        />
+
+        <Pad
+          activeColor={activeColor}
+          color="blue"
+          audio={"http://resources.schoolscience.co.uk/CDA/CD/files/sound/decorativelamp.mp3"}
+        />
+
+        <Pad
+          activeColor={activeColor}
+          color="yellow"
+          audio={"http://stephane.brechet.free.fr/Sons/MP3/BELL.mp3"}
+        />
+
+        <Pad
+          activeColor={activeColor}
+          color="green"
+          audio={"http://www.richardbrice.net/bell_1.mp3"}
+        />
+
+        <button onClick={() => dispatch(displaySequence(800))}>Start</button>
       </div>
     );
   }
