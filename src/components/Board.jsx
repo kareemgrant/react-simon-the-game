@@ -64,7 +64,7 @@ class Board extends Component {
       }
     } else {
       this.setState({ patternIndex: 0 });
-      dispatch(endGame(`You made it to Round ${currentRound} for ${selectedLevel.name}, try again`));
+      dispatch(endGame(`You made it to Round ${currentRound} on ${selectedLevel.name}, try again`));
     }
   }
 
