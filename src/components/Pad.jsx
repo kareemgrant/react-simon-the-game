@@ -12,9 +12,8 @@ const propTypes = {
 };
 
 class Pad extends Component {
-  componentWillReceiveProps(newProps) {
-    const { color } = this.props;
-    if (this.props.color === this.props.activeColor) {
+  componentWillReceiveProps(nextProps) {
+    if (this.props.color === nextProps.activeColor) {
       this.play();
     }
   }
@@ -27,7 +26,6 @@ class Pad extends Component {
         green: color === 'green',
         blue: color === 'blue',
         pad: true,
-        highlight: false,
       })
     );
   }

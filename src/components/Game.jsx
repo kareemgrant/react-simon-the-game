@@ -7,7 +7,6 @@ const propTypes = {
 
 class Game extends Component {
   render() {
-    console.log('rendering game', this.props);
     const { gameData } = this.props;
 
     return (

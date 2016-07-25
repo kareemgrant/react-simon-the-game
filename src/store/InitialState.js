@@ -9,7 +9,9 @@ const InitialState = {
     currentIndex: 0,
     activeColor: null,
     currentRound: 1,
+    listeningForPattern: false,
     message: null,
+    selectedLevel: { id: 1, name: 'Level 1', patternCount: 3, interval: 2000 },
   },
 };
 

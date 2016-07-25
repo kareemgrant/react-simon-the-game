@@ -23,7 +23,7 @@ const gameReducer = (gameData = {}, action) => {
         sequenceInProgress: false,
         gameOver: true,
         activeColor: null,
-        patternCount: 4,
+        patternCount: 3,
         currentRound: 1,
         currentIndex: 0,
         message: action.message,
@@ -34,6 +34,7 @@ const gameReducer = (gameData = {}, action) => {
         patternCount: gameData.patternCount + 1,
         currentIndex: 0,
         beginNextRound: true,
+        listeningForPattern: false,
       });
     default:
       return gameData;

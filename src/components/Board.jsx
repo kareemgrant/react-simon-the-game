@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import Pad from './Pad';
+import Select from './Select';
+import { LEVELS } from '../store/constants/GameConstants';
 import { dispatch } from '../store/Store';
 import {
   endGame,
@@ -20,6 +23,8 @@ const propTypes = {
   message: React.PropTypes.string,
   currentRound: React.PropTypes.number,
   sequenceInProgress: React.PropTypes.bool,
+  listeningForPattern: React.PropTypes.bool,
+  selectedLevel: React.PropTypes.object,
 };
 
 class Board extends Component {
@@ -40,8 +45,14 @@ class Board extends Component {
     return sequence[patternIndex];
   }
 
+  handleLevelSelect(id) {
+    const selectedLevel = _.find(LEVELS, { id: parseInt(id) });
+
+    dispatch(updateGameData({ selectedLevel }));
+  }
+
   validateSelection(color) {
-    const { sequence } = this.props;
+    const { sequence, currentRound, selectedLevel } = this.props;
     const { patternIndex } = this.state;
 
     if (color === sequence[patternIndex]) {
@@ -52,7 +63,8 @@ class Board extends Component {
         dispatch(advanceRound());
       }
     } else {
-      dispatch(endGame('Game over, please try again'));
+      this.setState({ patternIndex: 0 });
+      dispatch(endGame(`You made it to Round ${currentRound} for ${selectedLevel.name}, try again`));
     }
   }
 
@@ -96,25 +108,25 @@ class Board extends Component {
   }
 
   renderStartButton() {
-    const { gameInProgress } = this.props;
+    const { gameInProgress, selectedLevel: { interval } } = this.props;
 
     if (gameInProgress) { return null; }
 
     return (
       <div className="btn-center btn-container">
-        <button className="btn btn-default" onClick={() => this.startRound(2000)}>Start</button>
+        <button className="btn btn-default" onClick={() => this.startRound(interval)}>Start</button>
       </div>
     );
   }
 
   renderNextRoundButton() {
-    const { gameInProgress, beginNextRound } = this.props;
+    const { gameInProgress, beginNextRound, selectedLevel: { interval } } = this.props;
     if (!gameInProgress) { return null; }
     if (!beginNextRound) { return null; }
 
     return (
       <div className="btn-center btn-container">
-        <button className="btn btn-default" onClick={() => this.nextRound(2000)}>Next Round</button>
+        <button className="btn btn-default" onClick={() => this.nextRound(interval)}>Next Round</button>
       </div>
     );
   }
@@ -132,12 +144,26 @@ class Board extends Component {
     );
   }
 
+  renderSelect() {
+    const { selectedLevel, gameInProgress } = this.props;
+
+    return (
+      <div className="btn-center btn-container">
+        <Select
+          selectOptions={LEVELS}
+          selectedOption={selectedLevel}
+          handleSelect={this.handleLevelSelect}
+          isDisabled={gameInProgress}
+        />
+      </div>
+    );
+  }
+
   render() {
     const {
       activeColor,
-      gameInProgress,
-      sequenceInProgress,
       currentRound,
+      listeningForPattern,
     } = this.props;
 
     return (
@@ -151,7 +177,7 @@ class Board extends Component {
           color="red"
           audio={"http://www.sounds.beachware.com/2illionzayp3may/tlahs/BING.mp3"}
           losingAudio={"http://static1.grsites.com/archive/sounds/cartoon/cartoon183.mp3"}
-          listeningForPattern={gameInProgress && !sequenceInProgress}
+          listeningForPattern={listeningForPattern}
           currentCorrectColor={this.getCurrentCorrectColor()}
           validateSelection={this.validateSelection}
         />
@@ -161,7 +187,7 @@ class Board extends Component {
           color="blue"
           audio={"http://resources.schoolscience.co.uk/CDA/CD/files/sound/decorativelamp.mp3"}
           losingAudio={"http://static1.grsites.com/archive/sounds/cartoon/cartoon183.mp3"}
-          listeningForPattern={gameInProgress && !sequenceInProgress}
+          listeningForPattern={listeningForPattern}
           currentCorrectColor={this.getCurrentCorrectColor()}
           validateSelection={this.validateSelection}
         />
@@ -171,7 +197,7 @@ class Board extends Component {
           color="yellow"
           audio={"http://stephane.brechet.free.fr/Sons/MP3/BELL.mp3"}
           losingAudio={"http://static1.grsites.com/archive/sounds/cartoon/cartoon183.mp3"}
-          listeningForPattern={gameInProgress && !sequenceInProgress}
+          listeningForPattern={listeningForPattern}
           currentCorrectColor={this.getCurrentCorrectColor()}
           validateSelection={this.validateSelection}
         />
@@ -181,11 +207,12 @@ class Board extends Component {
           color="green"
           audio={"http://www.richardbrice.net/bell_1.mp3"}
           losingAudio={"http://static1.grsites.com/archive/sounds/cartoon/cartoon183.mp3"}
-          listeningForPattern={gameInProgress && !sequenceInProgress}
+          listeningForPattern={listeningForPattern}
           currentCorrectColor={this.getCurrentCorrectColor()}
           validateSelection={this.validateSelection}
         />
 
+        {this.renderSelect()}
         {this.renderInstructions()}
         {this.renderStartButton()}
         {this.renderResetButton()}

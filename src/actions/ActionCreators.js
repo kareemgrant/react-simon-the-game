@@ -42,15 +42,16 @@ function displaySequence(interval) {
     let intervalId = null;
 
 
-    dispatch(updateGameData({ sequenceInProgress: true }));
+    dispatch(updateGameData({ sequenceInProgress: true, listeningForPattern: false }));
 
     intervalId = setInterval(() => {
       if (!items.length) {
-        dispatch(updateGameData({ sequenceInProgress: false, activeColor: null }));
+        dispatch(updateGameData({ sequenceInProgress: false, activeColor: null, listeningForPattern: true }));
         clearInterval(intervalId);
       }
 
       items.shift();
+
       dispatch(updateGameData({
         activeColor: sequence[index],
         currentIndex: index++,
